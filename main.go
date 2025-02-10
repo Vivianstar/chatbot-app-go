@@ -14,6 +14,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	vegeta "github.com/tsenart/vegeta/v12/lib"
 )
 
@@ -73,6 +74,11 @@ var (
 )
 
 func init() {
+	// Load .env file
+	if err := godotenv.Load(); err != nil {
+		log.Printf("Warning: .env file not found or error loading it: %v", err)
+	}
+
 	// Load environment variables
 	llmEndpoint = os.Getenv("SERVING_ENDPOINT_NAME")
 	apiKey = os.Getenv("DATABRICKS_TOKEN")

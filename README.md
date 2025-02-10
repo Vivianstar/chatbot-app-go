@@ -54,10 +54,10 @@ chmod +x main
 
 ### Cross-Compilation for Linux
 
-3. For Linux (from macOS or Windows):
+3. For Linux (from macOS or Windows) and to reduce the size of the executable:
 ```bash
 # Set the target OS and architecture
-GOOS=linux GOARCH=amd64 go build -o main main.go
+GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o main main.go
 ```
 
 ### Frontend (React)
@@ -119,6 +119,24 @@ databricks auth login --host <workspace-url>
 ```bash
 databricks apps create chat-app
 ```
+
+4. Create an `app.yaml` file in the root directory:
+
+   ```yaml
+   command:
+   - "python"
+   - "app.py"
+
+   env:
+   - name: "SERVING_ENDPOINT_NAME"
+      valueFrom: "serving_endpoint"
+   ```
+
+   The `app.yaml` configuration runs FastAPI application. 
+   The environment section defines `SERVING_ENDPOINT_NAME` which is configured (`serving_endpoint`) through apps creation in Databricks, securly storing and accessing sensitive values.
+
+   For detials on how to create an app in Databricks, please refer to the [Databricks Apps Documentation](https://docs.databricks.com/en/dev-tools/databricks-apps/configuration.html).
+
 
 4. Sync your local files to Databricks workspace:
 ```bash

@@ -5,6 +5,8 @@ import stat
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import subprocess
+
+# Add logging configuration at the top
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
@@ -16,16 +18,14 @@ def start_go_proxy():
     os.chmod(go_executable, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
     
     try:
-        # Run the Go proxy as a background process
         process = subprocess.run([go_executable],
                          capture_output=True,   
                          text=True)
-        logging.info("Go proxy server started successfully")
+        logging.info("proxy server started successfully")
         return process
     except Exception as e:
-        logging.error(f"Failed to start Go proxy: {str(e)}")
-        return None
-
+        logging.error(f"Failed to start proxy: {str(e)}")
+        return None 
 
 if __name__ == "__main__":
-    start_go_proxy() 
+    start_go_proxy()
