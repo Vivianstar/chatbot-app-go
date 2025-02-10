@@ -5,9 +5,6 @@ import stat
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import subprocess
-import uvicorn
-from contextlib import asynccontextmanager
-# Add logging configuration at the top
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'

@@ -4,5 +4,5 @@ command:
 env:
   - name: "SERVING_ENDPOINT_NAME"
     valueFrom: "serving_endpoint"
-  - name: "DATABRICKS_API_KEY"
-    valueFrom: ""
+  - name: "DATABRICKS_TOKEN"
+    value: "your_databricks_token"

@@ -137,54 +137,32 @@ const PremiumChatBotUI = () => {
 
   // Function to add messages with delay and simulate movement
   const initializeMessages = async () => {
-    // Define cities with their coordinates
     const cities = [
       {
-        user: "Find me the vehicle statuses within 5 miles of location 1669 Euclid Ave, Boulder, CO 80309",
-        bot: `Here are the vehicle statuses within 5 miles of 1669 Euclid Ave, Boulder, CO 80309:
-
-              1. Vehicle ID: 100905
-                - Location: 40.00666427612305, -105.28015899658203
-                - Heading: 226
-                - Onboard quantity: 1000
-                - Speed: 11.384
-                - Last reported timestamp: 2024-10-01T09:35:18.000Z
-
-              2. Vehicle ID: 100258
-                - Location: 40.04490661621094, -105.26258850097656
-                - Heading: 166
-                - Onboard quantity: 1364
-                - Speed: 7.3385
-                - Last reported timestamp: 2024-10-01T09:39:21.000Z
-
-              3. Vehicle ID: 100492
-                - Location: 40.04677200317383, -105.26612854003906
-                - Heading: 302
-                - Onboard quantity: 967
-                - Speed: 25.5408
-                - Last reported timestamp: 2024-10-01T09:39:11.000Z
-
-              4. Vehicle ID: 100401
-                - Location: 40.04257781982422, -105.2877133178711
-                - Heading: 266
-                - Onboard quantity: 809
-                - Speed: 34.6396
-                - Last reported timestamp: 2024-10-01T09:05:52.000Z`
+        user: "What's the difference between let and const in JavaScript?",
+        bot: "Here's a simple explanation:\n\n" +
+             "- `let` allows you to reassign values\n" +
+             "- `const` prevents reassignment\n\n" +
+             "Example:\n" +
+             "```javascript\n" +
+             "let count = 1;\n" +
+             "count = 2; // ✅ This works\n\n" +
+             "const API_KEY = '123';\n" +
+             "API_KEY = '456'; // ❌ This throws an error\n" +
+             "```"
       }
     ];
 
     // Add each city with a delay
     for (let i = 0; i < cities.length; i++) {
       const city = cities[i];
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Reduced delay to 1 second
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       setMessages(prev => [
         ...prev,
         { sender: "user", text: city.user },
         { sender: "bot", text: city.bot }
       ]);
-      
-      
     }
   };
 

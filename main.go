@@ -75,11 +75,11 @@ var (
 func init() {
 	// Load environment variables
 	llmEndpoint = os.Getenv("SERVING_ENDPOINT_NAME")
-	apiKey = os.Getenv("DATABRICKS_API_KEY")
+	apiKey = os.Getenv("DATABRICKS_TOKEN")
 
-	// if llmEndpoint == "" || apiKey == "" {
-	// 	log.Fatal("Missing required environment variables")
-	// }
+	if llmEndpoint == "" || apiKey == "" {
+		log.Fatal("Missing required environment variables")
+	}
 }
 
 func StartGoServer() {
@@ -155,7 +155,8 @@ func chatWithLLM(c *gin.Context) {
 	log.Printf("Payload: %s", string(jsonPayload))
 
 	client := &http.Client{}
-	httpReq, err := http.NewRequest("POST", llmEndpoint, bytes.NewBuffer(jsonPayload))
+	requestURL := fmt.Sprintf("https://%s/serving-endpoints/%s/invocations", os.Getenv("DATABRICKS_HOST"), llmEndpoint)
+	httpReq, err := http.NewRequest("POST", requestURL, bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create request"})
 		return
