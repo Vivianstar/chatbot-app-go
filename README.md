@@ -234,3 +234,65 @@ curl "http://localhost:8000/api/load-test?users=1000&spawn_rate=100&test_time=30
 - `GET /api/`: Health check endpoint
 - `POST /api/chat`: Chat endpoint for LLM interactions
 - `GET /api/load-test`: Load testing endpoint with Vegeta
+
+## Rust Chat Server
+
+The Rust chat server provides an alternative high-performance backend implementation that can be used instead of the Go server.
+
+### Building the Rust Server
+
+1. Navigate to the Rust server directory:
+```bash
+cd rust-chat-server
+```
+
+2. Build for development:
+```bash
+cargo build
+```
+
+3. Build optimized release version:
+```bash
+# For the current platform
+cargo build --release
+
+# Cross-compile for Linux (from macOS/Windows)
+RUSTFLAGS='-C target-feature=+crt-static' cargo build --release --target x86_64-unknown-linux-musl
+```
+
+### Size Optimization
+
+The Rust executable is optimized for size using the following configurations in `Cargo.toml`:
+```toml
+[profile.release]
+opt-level = 'z'     # Optimize for size
+lto = true          # Enable Link Time Optimization
+codegen-units = 1   # Reduce parallel code generation units
+panic = 'abort'     # Remove panic unwinding
+strip = true        # Strip symbols from binary
+```
+
+### Running with FastAPI Wrapper
+
+The Rust server can be run using the same FastAPI wrapper as the Go server. Update `app.py` to use the Rust executable:
+
+```python
+def start_rust_proxy():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    rust_executable = os.path.join(current_dir, "rust-chat-server")
+    
+    # Set executable permissions
+    os.chmod(rust_executable, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+    
+    try:
+        process = subprocess.run([rust_executable],
+                         capture_output=True,   
+                         text=True)
+        logging.info("Rust proxy server started successfully")
+        return process
+    except Exception as e:
+        logging.error(f"Failed to start Rust proxy: {str(e)}")
+        return None
+```
+
+

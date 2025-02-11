@@ -5,3 +5,6 @@ client/build
 __pycache__
 .DS_Store
 main
+rust-chat-server/.env
+rust-chat-server/target
+rust-chat-server/.cargo
