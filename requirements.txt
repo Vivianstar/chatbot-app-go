@@ -7,3 +7,5 @@ aiofiles
 hypercorn
 databricks-sdk
 logging
+requests
+pytest
