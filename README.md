@@ -188,15 +188,14 @@ The application includes built-in load testing using Vegeta, implemented in the 
 
 ### Running Load Tests
 
-1. Local Testing:
+1. Local App Testing:
 ```bash
 curl "http://localhost:8000/api/load-test?users=200&spawn_rate=2&test_time=10"
 ```
 
 2. Databricks Deployed App Testing:
-```bash
-curl "https://chat-app-[id].cloud.databricksapps.com/api/load-test?users=200&spawn_rate=20&test_time=30"
-```
+![load-test](./client/public/load-testing.png)
+*Run load tests in the Databricks Apps UI*
 
 Parameters:
 - `users`: Number of concurrent users
@@ -205,16 +204,15 @@ Parameters:
 
 ### Load Testing Scenarios
 
-```bash
 # Light load test
-curl "http://localhost:8000/api/load-test?users=100&spawn_rate=10&test_time=30"
+http://localhost:8000/api/load-test?users=100&spawn_rate=10&test_time=30
 
 # Medium load test
-curl "http://localhost:8000/api/load-test?users=500&spawn_rate=50&test_time=30"
+http://localhost:8000/api/load-test?users=500&spawn_rate=50&test_time=30
 
 # Heavy load test
-curl "http://localhost:8000/api/load-test?users=1000&spawn_rate=100&test_time=30"
-```
+http://localhost:8000/api/load-test?users=1000&spawn_rate=100&test_time=30
+
 
 ### Load Testing Best Practices
 
